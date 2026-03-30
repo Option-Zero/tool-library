@@ -1,7 +1,17 @@
-/* Design System — Tool Library */
-/* See DESIGN.md for rationale */
+/* ==========================================================================
+   Tool Library — Design System
+   All values from DESIGN.md. Do not deviate without explicit approval.
+   ========================================================================== */
+
+/* --- Google Fonts --- */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+/* ==========================================================================
+   Design Tokens (CSS Custom Properties)
+   ========================================================================== */
 
 :root {
+  /* --- Colors (Light) --- */
   --bg: #FDFAF6;
   --surface: #FFFFFF;
   --surface-raised: #F7F3ED;
@@ -19,11 +29,22 @@
   --success: #4A6F5C;
   --info: #4F6F8A;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-full: 9999px;
+  /* --- Typography --- */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, monospace;
 
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-hero: clamp(40px, 6vw, 72px);
+
+  /* --- Spacing (8px base) --- */
   --space-2xs: 2px;
   --space-xs: 4px;
   --space-sm: 8px;
@@ -32,10 +53,41 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
+
+  /* --- Border Radius --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* --- Motion --- */
+  --ease-enter: ease-out;
+  --ease-exit: ease-in;
+  --ease-move: ease-in-out;
+  --duration-micro: 75ms;
+  --duration-short: 200ms;
+  --duration-medium: 300ms;
+
+  /* --- Layout --- */
+  --max-content: 1200px;
+  --container-padding: 16px;
+  --body-max-width: 65ch;
+  --touch-target: 44px;
+  --touch-target-secondary: 36px;
+  --bottom-nav-height: 64px;
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (min-width: 640px) {
   :root {
+    --container-padding: 24px;
+  }
+}
+
+/* --- Dark Mode (system preference) --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
     --bg: #1A1816;
     --surface: #242120;
     --surface-raised: #2E2B28;
@@ -43,7 +95,7 @@
     --muted: #9A9590;
     --accent: #D4943A;
     --accent-on-bg: #D4943A;
-    --accent-hover: #E0A54E;
+    --accent-hover: #E0A350;
     --secondary: #6B9B80;
     --secondary-hover: #7DAE92;
     --border: #3A3632;
@@ -52,8 +104,34 @@
     --warning: #D4943A;
     --success: #6B9B80;
     --info: #7BA0BE;
+    color-scheme: dark;
   }
 }
+
+/* --- Dark Mode (explicit override) --- */
+:root[data-theme="dark"] {
+  --bg: #1A1816;
+  --surface: #242120;
+  --surface-raised: #2E2B28;
+  --text: #E8E2DA;
+  --muted: #9A9590;
+  --accent: #D4943A;
+  --accent-on-bg: #D4943A;
+  --accent-hover: #E0A350;
+  --secondary: #6B9B80;
+  --secondary-hover: #7DAE92;
+  --border: #3A3632;
+  --border-subtle: #2E2B28;
+  --error: #D46060;
+  --warning: #D4943A;
+  --success: #6B9B80;
+  --info: #7BA0BE;
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
 
 *,
 *::before,
@@ -64,70 +142,421 @@
 }
 
 html {
-  font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
 }
 
 body {
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-size: 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
   line-height: 1.5;
   color: var(--text);
   background-color: var(--bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
 }
 
-h1, h2, h3 {
-  font-family: "Fraunces", Georgia, serif;
-  font-weight: 600;
-  line-height: 1.2;
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-h1 { font-size: clamp(2.25rem, 6vw, 4.5rem); }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent-on-bg);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-md);
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
 }
 
-@media (min-width: 640px) {
-  .container {
-    padding: var(--space-lg);
+.prose {
+  max-width: var(--body-max-width);
+}
+
+/* App shell */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app-main {
+  flex: 1;
+  padding-bottom: calc(var(--bottom-nav-height) + var(--space-lg) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .app-main {
+    padding-bottom: var(--space-lg);
   }
 }
 
-.hero {
-  text-align: center;
-  padding: var(--space-3xl) 0 var(--space-2xl);
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-sm) var(--container-padding);
 }
 
-.hero h1 {
+.app-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: var(--touch-target);
+}
+
+.app-header-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
   color: var(--text);
-  margin-bottom: var(--space-sm);
+  text-decoration: none;
+  letter-spacing: -0.01em;
 }
 
-.subtitle {
+.app-header-title:hover {
+  color: var(--text);
+}
+
+.app-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* ==========================================================================
+   Bottom Navigation (Mobile)
+   ========================================================================== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: var(--bottom-nav-height);
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: var(--space-xs) var(--space-sm);
   color: var(--muted);
-  font-size: 1.125rem;
+  text-decoration: none;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-short) var(--ease-enter);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.empty-state {
-  text-align: center;
-  padding: var(--space-2xl) var(--space-md);
-  background: var(--surface);
+.bottom-nav-item:hover {
+  color: var(--text);
+}
+
+.bottom-nav-item[data-active="true"] {
+  color: var(--accent-on-bg);
+}
+
+.bottom-nav-item svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================================
+   Component Styles — Buttons
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: var(--touch-target);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-short) var(--ease-enter),
+    color var(--duration-short) var(--ease-enter),
+    border-color var(--duration-short) var(--ease-enter);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--accent-on-bg);
+  color: var(--bg);
+  border-color: var(--accent-on-bg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: #FFFFFF;
+  border-color: var(--secondary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--secondary-hover);
+  border-color: var(--secondary-hover);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--surface-raised);
+  border-color: var(--border);
+}
+
+/* Small variant */
+.btn-sm {
+  min-height: var(--touch-target-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-xs);
+}
+
+/* ==========================================================================
+   Component Styles — Cards
+   ========================================================================== */
+
+.card {
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  padding: var(--space-md);
 }
 
-.empty-state h2 {
-  margin-bottom: var(--space-sm);
+/* ==========================================================================
+   Component Styles — Form Inputs
+   ========================================================================== */
+
+.input {
+  display: block;
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-base);
+  line-height: 1.5;
   color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-short) var(--ease-enter);
 }
 
-.empty-state p {
+.input::placeholder {
   color: var(--muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-on-bg);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-on-bg) 25%, transparent);
+}
+
+.input-error {
+  border-color: var(--error);
+}
+
+.input-error:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--error) 25%, transparent);
+}
+
+.input-message {
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.input-message-error {
+  color: var(--error);
+}
+
+/* ==========================================================================
+   Component Styles — Status Badges
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.badge-available {
+  background-color: color-mix(in srgb, var(--success) 12%, transparent);
+  color: var(--success);
+}
+
+.badge-checked-out {
+  background-color: color-mix(in srgb, var(--warning) 12%, transparent);
+  color: var(--warning);
+}
+
+.badge-unavailable {
+  background-color: color-mix(in srgb, var(--muted) 12%, transparent);
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Utility: Responsive Grid (Tool Cards)
+   ========================================================================== */
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tool-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .tool-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Typography Utilities
+   ========================================================================== */
+
+.text-display {
+  font-family: var(--font-display);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Skeleton Loading
+   ========================================================================== */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-raised) 25%,
+    var(--border-subtle) 50%,
+    var(--surface-raised) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer var(--duration-medium) var(--ease-move) infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ==========================================================================
+   PWA Standalone Safe Areas
+   ========================================================================== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .app-header {
+    padding-top: max(var(--space-sm), env(safe-area-inset-top));
+  }
+
+  .app-shell {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
 }

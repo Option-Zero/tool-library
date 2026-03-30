@@ -1,12 +1,16 @@
 /// <reference types="vite/client" />
-import type { ReactNode } from "react";
 import {
-  Outlet,
-  createRootRoute,
   HeadContent,
   Scripts,
+  createRootRoute,
 } from "@tanstack/react-router";
+import Header from "~/components/Header";
+import BottomNav from "~/components/BottomNav";
 import appCss from "~/styles/app.css?url";
+
+const THEME_INIT_SCRIPT = `(function(){try{var s=localStorage.getItem('theme');var m=(s==='light'||s==='dark'||s==='auto')?s:'auto';var d=matchMedia('(prefers-color-scheme:dark)').matches;var r=m==='auto'?(d?'dark':'light'):m;var h=document.documentElement;h.classList.remove('light','dark');h.classList.add(r);if(m==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',m);h.style.colorScheme=r}catch(e){}})()`;
+
+const SW_REGISTER_SCRIPT = `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -14,15 +18,16 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content:
-          "width=device-width, initial-scale=1, viewport-fit=cover",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       { title: "Tool Library — Highlands2" },
       {
         name: "description",
-        content: "Borrow tools from your neighbors",
+        content: "Borrow tools from your neighbors in Highlands2.",
       },
       { name: "theme-color", content: "#FDFAF6" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -35,33 +40,31 @@ export const Route = createRootRoute({
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap",
-      },
       { rel: "manifest", href: "/manifest.json" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
-  component: RootComponent,
+  shellComponent: RootDocument,
 });
 
-function RootComponent() {
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  );
-}
-
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-  return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
-        {children}
+        <div className="app-shell">
+          <Header />
+          <main className="app-main">
+            {children}
+          </main>
+          <BottomNav />
+        </div>
         <Scripts />
+        <script dangerouslySetInnerHTML={{ __html: SW_REGISTER_SCRIPT }} />
       </body>
     </html>
   );
