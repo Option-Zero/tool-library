@@ -1,0 +1,40 @@
+[     881ms] [ERROR] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <SplitComponent>
+      <OutletImpl>
+        <MatchImpl matchId="/_authed/n...">
+          <MatchView router={{...}} matchId="/_authed/n..." resetKey={0} matchState={{routeId:"/...", ...}}>
+            <SafeFragment>
+              <SafeFragment fallback={null}>
+                <SafeFragment getResetKey={function getResetKey} errorComponent={function ErrorComponent} ...>
+                  <SafeFragment fallback={function fallback}>
+                    <MatchInnerImpl matchId="/_authed/n...">
+                      <Lazy>
+                        <NotificationsPage>
+                          <div className="container" style={{...}}>
+                            <div style={{maxWidth:600, ...}}>
+                              <div>
+                              <div className="card" style={{display:"flex", ...}}>
+                                <div>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                  style={{fontSize:"var(--text..."}}
++                                 disabled={false}
+-                                 disabled=""
+                                  onClick={function togglePush}
+                                >
++                                 Enable
+                              ...
+ @ http://marvin-wsl:3002/node_modules/.vite/deps/react-dom_client.js?v=20bac752:3083
