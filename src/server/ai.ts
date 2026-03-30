@@ -28,7 +28,7 @@ export interface IdentifyToolsError {
 }
 
 export const identifyTools = createServerFn({ method: "POST" })
-  .validator((data: { image_base64: string }) => {
+  .inputValidator((data: { image_base64: string }) => {
     if (!data.image_base64) throw new Error("Image required");
     return data;
   })
@@ -128,7 +128,7 @@ If you cannot identify any tools, return an empty array: []`;
 
 /** Identify a single tool from a photo (for individual add). */
 export const identifySingleTool = createServerFn({ method: "POST" })
-  .validator((data: { image_base64: string }) => {
+  .inputValidator((data: { image_base64: string }) => {
     if (!data.image_base64) throw new Error("Image required");
     return data;
   })

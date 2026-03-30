@@ -82,7 +82,7 @@ export const getOwnerTools = createServerFn({ method: "GET" }).handler(
 // ---------------------------------------------------------------------------
 
 export const createTool = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (data: {
       name: string;
       description?: string;
@@ -125,7 +125,7 @@ export const createTool = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const updateTool = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (data: {
       id: string;
       name?: string;
@@ -193,7 +193,7 @@ export const updateTool = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const deleteTool = createServerFn({ method: "POST" })
-  .validator((data: { id: string }) => data)
+  .inputValidator((data: { id: string }) => data)
   .handler(async ({ data }) => {
     const user = await getCurrentUser();
     if (!user) throw new Error("Not authenticated");
@@ -219,7 +219,7 @@ export const deleteTool = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const uploadImage = createServerFn({ method: "POST" })
-  .validator((data: { base64: string; filename: string }) => data)
+  .inputValidator((data: { base64: string; filename: string }) => data)
   .handler(async ({ data }) => {
     const user = await getCurrentUser();
     if (!user) throw new Error("Not authenticated");
@@ -245,7 +245,7 @@ export const uploadImage = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const batchCreateTools = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (
       data: Array<{
         name: string;

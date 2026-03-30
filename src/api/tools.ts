@@ -12,7 +12,7 @@ import type {
  * Uses FTS5 for full-text search when a query is provided.
  */
 export const getTools = createServerFn()
-  .validator(
+  .inputValidator(
     (input: { q?: string; category?: string; limit?: number; offset?: number }) => input,
   )
   .handler(async ({ data }): Promise<ToolListResult> => {
@@ -102,7 +102,7 @@ export const getTools = createServerFn()
  * Fetch a single tool by ID with owner and active loan info.
  */
 export const getToolById = createServerFn()
-  .validator((input: { id: string }) => input)
+  .inputValidator((input: { id: string }) => input)
   .handler(async ({ data }): Promise<ToolDetailResult | null> => {
     const db = env.TOOL_DB;
 

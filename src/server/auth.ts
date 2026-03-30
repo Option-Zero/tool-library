@@ -48,7 +48,7 @@ export const getCurrentUser = createServerFn({ method: "GET" }).handler(
 // ---------------------------------------------------------------------------
 
 export const requestMagicLink = createServerFn({ method: "POST" })
-  .validator((data: { email: string }) => {
+  .inputValidator((data: { email: string }) => {
     const email = data.email.toLowerCase().trim();
     if (!email || !email.includes("@")) {
       throw new Error("Valid email required");
@@ -123,7 +123,7 @@ export const requestMagicLink = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const verifyMagicToken = createServerFn({ method: "GET" })
-  .validator((data: { token: string }) => data)
+  .inputValidator((data: { token: string }) => data)
   .handler(async ({ data }) => {
     const db = getDb();
 

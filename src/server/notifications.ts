@@ -11,7 +11,7 @@ import { getCurrentUser } from "./auth";
 // ---------------------------------------------------------------------------
 
 export const subscribePush = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (data: { endpoint: string; p256dh: string; auth: string }) => data,
   )
   .handler(async ({ data }) => {
@@ -42,7 +42,7 @@ export const subscribePush = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------------
 
 export const unsubscribePush = createServerFn({ method: "POST" })
-  .validator((data: { endpoint: string }) => data)
+  .inputValidator((data: { endpoint: string }) => data)
   .handler(async ({ data }) => {
     const user = await getCurrentUser();
     if (!user) throw new Error("Not authenticated");
@@ -121,7 +121,7 @@ export const getNotifications = createServerFn({ method: "GET" }).handler(
 // ---------------------------------------------------------------------------
 
 export const markNotificationsRead = createServerFn({ method: "POST" })
-  .validator((data: { ids?: string[]; all?: boolean }) => data)
+  .inputValidator((data: { ids?: string[]; all?: boolean }) => data)
   .handler(async ({ data }) => {
     const user = await getCurrentUser();
     if (!user) throw new Error("Not authenticated");

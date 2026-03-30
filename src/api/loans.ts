@@ -7,7 +7,7 @@ import { getCurrentUser } from "~/server/auth";
  * Borrow a tool. Creates a loan record, marks tool checked_out, notifies owner.
  */
 export const borrowTool = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (input: { toolId: string; expectedReturn: string }) => {
       if (!input.toolId) throw new Error("Tool ID required");
       if (!input.expectedReturn) throw new Error("Expected return date required");
@@ -66,7 +66,7 @@ export const borrowTool = createServerFn({ method: "POST" })
  * Return a tool. Marks loan returned, sets tool available, notifies owner.
  */
 export const returnTool = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     (input: { toolId: string; locationVerified: boolean }) => {
       if (!input.toolId) throw new Error("Tool ID required");
       return input;
