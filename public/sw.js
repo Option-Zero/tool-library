@@ -24,6 +24,56 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
+// ---------------------------------------------------------------------------
+// Push notifications
+// ---------------------------------------------------------------------------
+
+self.addEventListener('push', (event) => {
+  if (!event.data) return
+
+  let data
+  try {
+    data = event.data.json()
+  } catch {
+    data = { title: 'Tool Library', body: event.data.text() }
+  }
+
+  const options = {
+    body: data.body || '',
+    icon: '/favicon.svg',
+    badge: '/favicon.svg',
+    tag: data.tag || 'default',
+    data: { url: data.url || '/' },
+    vibrate: [200, 100, 200],
+  }
+
+  event.waitUntil(self.registration.showNotification(data.title || 'Tool Library', options))
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+
+  const url = event.notification.data?.url || '/'
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      // Focus existing window if one is open
+      for (const client of clients) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          client.navigate(url)
+          return client.focus()
+        }
+      }
+      // Otherwise open a new window
+      return self.clients.openWindow(url)
+    })
+  )
+})
+
+// ---------------------------------------------------------------------------
+// Fetch caching
+// ---------------------------------------------------------------------------
+
 self.addEventListener('fetch', (event) => {
   // Only cache GET requests
   if (event.request.method !== 'GET') return

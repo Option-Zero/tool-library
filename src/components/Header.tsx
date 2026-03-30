@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import ThemeToggle from './ThemeToggle'
+import NotificationBell from './NotificationBell'
 
 export default function Header() {
   return (
@@ -9,6 +10,7 @@ export default function Header() {
           Tool Library
         </Link>
         <div className="app-header-actions">
+          <NotificationBell />
           <ThemeToggle />
         </div>
       </div>
