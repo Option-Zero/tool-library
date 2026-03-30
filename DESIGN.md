@@ -39,17 +39,18 @@
   --surface: #FFFFFF;       /* card/panel surfaces */
   --surface-raised: #F7F3ED; /* subtle raised surfaces */
   --text: #2D2A26;          /* warm near-black */
-  --muted: #8B8580;         /* warm gray for secondary text */
-  --accent: #C17F3E;        /* warm amber/ochre — oiled wood */
-  --accent-hover: #A86B30;
+  --muted: #736E69;         /* warm gray — passes WCAG AA on bg+surface */
+  --accent: #C17F3E;        /* warm amber/ochre — decorative/large text only */
+  --accent-on-bg: #9A6530;  /* darkened accent for buttons + small text (4.5:1 on white) */
+  --accent-hover: #7E5228;
   --secondary: #4A6F5C;     /* forest green — PNW, community */
   --secondary-hover: #3B5A4A;
   --border: #E8E2DA;
   --border-subtle: #F0EBE4;
-  --error: #C44D4D;
-  --warning: #D4943A;
+  --error: #B04040;         /* darkened for AA contrast */
+  --warning: #A07028;       /* darkened for AA contrast */
   --success: #4A6F5C;       /* same as secondary */
-  --info: #5B7D9A;          /* steel blue — like tools */
+  --info: #4F6F8A;          /* darkened steel blue for AA contrast */
   ```
 - **Dark mode strategy:** Reduce saturation 10-20%, flip surfaces to warm darks:
   ```css
@@ -59,9 +60,16 @@
   --border: #3A3632;
   --border-subtle: #2E2B28;
   --surface-raised: #2E2B28;
+  --muted: #9A9590;         /* lightened for AA on dark surfaces */
   --accent: #D4943A;        /* slightly warmer in dark */
+  --accent-on-bg: #D4943A;  /* same as accent in dark (passes AA on dark bg) */
   --secondary: #6B9B80;     /* slightly lighter in dark */
+  --error: #D46060;
+  --warning: #D4943A;
+  --success: #6B9B80;
+  --info: #7BA0BE;
   ```
+- **Color scheme:** Respect `prefers-color-scheme` by default. Persist user override in localStorage.
 
 ## Spacing
 - **Base unit:** 8px
@@ -70,13 +78,18 @@
 
 ## Layout
 - **Approach:** Grid-disciplined (clean catalog layout, mobile-first)
-- **Grid:** 1 col mobile, 2 col tablet, 3-4 col desktop for tool cards
+- **Breakpoints:** sm: 640px, md: 768px, lg: 1024px, xl: 1200px
+- **Grid:** 1 col mobile, 2 col tablet (md+), 3-4 col desktop (lg+) for tool cards
 - **Max content width:** 1200px
+- **Container padding:** 16px below sm, 24px above sm
+- **Body text max-width:** 65ch (prevents unreadable line lengths on wide screens)
 - **Border radius:**
   - sm: 6px (buttons, inputs, pills)
   - md: 10px (cards, panels)
   - lg: 16px (modals, major containers)
   - full: 9999px (badges, pills, avatars)
+- **Safe areas:** Use `env(safe-area-inset-*)` for bottom nav and fixed elements (PWA standalone mode on notched phones)
+- **Touch targets:** Minimum 44px for primary actions (buttons, nav items). 36px absolute minimum for secondary actions.
 
 ## Motion
 - **Approach:** Minimal-functional — only transitions that aid comprehension
@@ -85,11 +98,16 @@
 - **No:** bouncy animations, scroll-driven effects, decorative motion
 
 ## Component Patterns
-- **Buttons:** Primary (amber accent), Secondary (forest green), Ghost (border only). Rounded sm. No gradient.
+- **Buttons:** Primary (accent-on-bg text on bg), Secondary (forest green), Ghost (border only). Rounded sm. No gradient.
 - **Cards:** White surface, subtle border, comfortable padding. No drop shadows.
-- **Status badges:** Pill-shaped. Available=green tint, Checked out=warning tint.
+- **Status badges:** Pill-shaped. Available=green tint, Checked out=warning tint, Unavailable=muted.
 - **Search:** Full-width input with category pills below. Search is THE entry point.
-- **Notifications:** Icon + text, minimal chrome. Color-coded by type.
+- **Notifications/Toasts:** Icon + text, minimal chrome. Color-coded by type. Auto-dismiss after 5s, swipe to dismiss on mobile.
+- **Bottom nav (mobile):** Fixed bottom bar with 3-4 items. Respects safe-area-inset-bottom. Active = accent color, inactive = muted.
+- **Empty states:** Illustration-free. Short heading + action button. "No tools yet — add your first" not "Oops! Nothing here."
+- **Loading:** Skeleton placeholders matching card/list shapes. No spinners except on button actions.
+- **Form inputs:** Border-subtle border, rounded sm. Focus ring = accent color (2px). Error state = error color border + message below.
+- **Photo/camera:** Full-bleed camera viewfinder for tool photos. Minimal overlay — capture button + close. Gallery fallback.
 
 ## Decisions Log
 | Date | Decision | Rationale |
