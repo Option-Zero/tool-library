@@ -1,3 +1,4 @@
 # Copy to .dev.vars for local development (never commit .dev.vars)
 RESEND_API_KEY=re_xxxxxxxxxxxx
+GEMINI_API_KEY=AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 APP_URL=http://localhost:3000
