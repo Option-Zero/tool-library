@@ -54,7 +54,7 @@ export const borrowTool = createServerFn({ method: "POST" })
           tool.owner_id,
           "tool_borrowed",
           `${tool.name} borrowed`,
-          `${user.name} borrowed your ${tool.name}. Expected return: ${new Date(data.expectedReturn).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}.`,
+          `${user.name} borrowed your ${tool.name}. Expected return: ${new Date(data.expectedReturn + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}.`,
           now,
         ),
     ]);

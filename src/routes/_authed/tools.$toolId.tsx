@@ -83,7 +83,7 @@ function ToolDetailPage() {
 function StatusSection({ tool }: { tool: ToolWithLoan }) {
   if (tool.status === "checked_out") {
     const returnDate = tool.expected_return
-      ? new Date(tool.expected_return).toLocaleDateString("en-US", {
+      ? new Date(tool.expected_return + "T00:00:00").toLocaleDateString("en-US", {
           weekday: "short",
           month: "short",
           day: "numeric",

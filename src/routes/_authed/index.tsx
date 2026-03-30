@@ -56,7 +56,7 @@ function CatalogPage() {
       </section>
 
       <CategoryPills
-        categories={data.categories}
+        categories={initialData.categories}
         active={category}
         onSelect={handleCategorySelect}
       />

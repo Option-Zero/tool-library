@@ -23,6 +23,7 @@ function NotificationsPage() {
   const [unread, setUnread] = useState(initial.unread);
   const [pushEnabled, setPushEnabled] = useState(false);
   const [pushLoading, setPushLoading] = useState(false);
+  const [pushSupported, setPushSupported] = useState(false);
 
   const doMarkRead = useServerFn(markNotificationsRead);
   const doSubscribe = useServerFn(subscribePush);
@@ -32,6 +33,7 @@ function NotificationsPage() {
   // Check current push subscription status
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
+      setPushSupported(true);
       navigator.serviceWorker.ready.then((reg) => {
         reg.pushManager.getSubscription().then((sub) => {
           setPushEnabled(!!sub);
@@ -164,10 +166,7 @@ function NotificationsPage() {
             type="button"
             className={`btn ${pushEnabled ? "btn-ghost" : "btn-primary"}`}
             style={{ fontSize: "var(--text-sm)" }}
-            disabled={
-              pushLoading ||
-              !("PushManager" in (typeof window !== "undefined" ? window : {}))
-            }
+            disabled={pushLoading || !pushSupported}
             onClick={togglePush}
           >
             {pushLoading
