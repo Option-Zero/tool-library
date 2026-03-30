@@ -8,7 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "pnpm build && wrangler deploy",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:migrate:remote": "tsx scripts/migrate.ts --remote",
+    "db:seed": "tsx scripts/seed-allowlist.ts",
+    "db:seed:remote": "tsx scripts/seed-allowlist.ts --remote"
   },
   "packageManager": "pnpm@10.12.1",
   "dependencies": {
@@ -22,6 +26,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
     "wrangler": "^4.78.0"
