@@ -2,10 +2,12 @@
 
 import { createServerFn } from "@tanstack/react-start";
 import { redirect } from "@tanstack/react-router";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
+import { getCookie, setCookie, getRequestUrl } from "@tanstack/react-start/server";
 import { env } from "cloudflare:workers";
 import { getDb } from "./db";
 import { generateId, generateToken } from "./crypto";
+
+const isSecure = () => getRequestUrl().startsWith("https");
 
 const SESSION_COOKIE = "tl_session";
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
@@ -89,7 +91,8 @@ export const requestMagicLink = createServerFn({ method: "POST" })
       throw new Error("RESEND_API_KEY not configured");
     }
 
-    const appUrl = (env as Record<string, string>).APP_URL || "https://toollibrary.optionzero.co";
+    const requestUrl = new URL(getRequestUrl());
+    const appUrl = requestUrl.origin;
     const magicUrl = `${appUrl}/auth/verify?token=${token}`;
 
     const res = await fetch("https://api.resend.com/emails", {
@@ -182,7 +185,7 @@ export const verifyMagicToken = createServerFn({ method: "GET" })
     // Set session cookie
     setCookie(SESSION_COOKIE, sessionToken, {
       httpOnly: true,
-      secure: true,
+      secure: isSecure(),
       sameSite: "lax",
       path: "/",
       maxAge: SESSION_MAX_AGE,
@@ -210,7 +213,7 @@ export const logout = createServerFn({ method: "POST" }).handler(async () => {
   // Clear cookie
   setCookie(SESSION_COOKIE, "", {
     httpOnly: true,
-    secure: true,
+    secure: isSecure(),
     sameSite: "lax",
     path: "/",
     maxAge: 0,
