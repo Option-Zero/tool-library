@@ -24,6 +24,6 @@
   ],
   // RESEND_API_KEY is set via `wrangler secret put RESEND_API_KEY`
   "vars": {
-    "APP_URL": "https://toolibrary.app"
+    "APP_URL": "https://toollibrary.optionzero.co"
   }
 }

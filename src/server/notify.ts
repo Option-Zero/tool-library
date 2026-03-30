@@ -133,10 +133,10 @@ async function sendEmailFallback(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Tool Library <noreply@toolibrary.app>",
+      from: "Tool Library <noreply@mail.optionzero.co>",
       to: [user.email],
       subject: title,
-      html: `<p>${body}</p><p><a href="https://toolibrary.app">Open Tool Library</a></p>`,
+      html: `<p>${body}</p><p><a href="https://toollibrary.optionzero.co">Open Tool Library</a></p>`,
     }),
   });
 }

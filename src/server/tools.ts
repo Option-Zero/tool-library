@@ -235,7 +235,7 @@ export const uploadImage = createServerFn({ method: "POST" })
     });
 
     // Return the public URL (assumes R2 bucket has public access or custom domain)
-    const publicUrl = `https://images.toolibrary.app/${key}`;
+    const publicUrl = `https://toollibrary.optionzero.co/images/${key}`;
 
     return { url: publicUrl, key };
   });
