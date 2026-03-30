@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tool-library",
+  "compatibility_date": "2026-03-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "TOOL_DB",
+      "database_name": "tool-library-db",
+      "database_id": "placeholder-replace-with-real-id"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "TOOL_IMAGES",
+      "bucket_name": "tool-library-images"
+    }
+  ]
+}

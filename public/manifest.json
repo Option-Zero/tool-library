@@ -1,0 +1,10 @@
+{
+  "name": "Tool Library",
+  "short_name": "Tools",
+  "description": "Borrow tools from your neighbors",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFAF6",
+  "theme_color": "#FDFAF6",
+  "icons": []
+}

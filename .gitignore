@@ -1,0 +1,24 @@
+.runtime/
+.claude/
+.logs/
+__pycache__/
+state.json
+CLAUDE.md
+CLAUDE.local.md
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.wrangler/
+
+# Generated files
+src/routeTree.gen.ts
+worker-configuration.d.ts
+.tanstack/
+
+# Environment
+.env
+.env.local
+.dev.vars

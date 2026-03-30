@@ -1,0 +1,133 @@
+/* Design System — Tool Library */
+/* See DESIGN.md for rationale */
+
+:root {
+  --bg: #FDFAF6;
+  --surface: #FFFFFF;
+  --surface-raised: #F7F3ED;
+  --text: #2D2A26;
+  --muted: #736E69;
+  --accent: #C17F3E;
+  --accent-on-bg: #9A6530;
+  --accent-hover: #7E5228;
+  --secondary: #4A6F5C;
+  --secondary-hover: #3B5A4A;
+  --border: #E8E2DA;
+  --border-subtle: #F0EBE4;
+  --error: #B04040;
+  --warning: #A07028;
+  --success: #4A6F5C;
+  --info: #4F6F8A;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1A1816;
+    --surface: #242120;
+    --surface-raised: #2E2B28;
+    --text: #E8E2DA;
+    --muted: #9A9590;
+    --accent: #D4943A;
+    --accent-on-bg: #D4943A;
+    --accent-hover: #E0A54E;
+    --secondary: #6B9B80;
+    --secondary-hover: #7DAE92;
+    --border: #3A3632;
+    --border-subtle: #2E2B28;
+    --error: #D46060;
+    --warning: #D4943A;
+    --success: #6B9B80;
+    --info: #7BA0BE;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.25rem, 6vw, 4.5rem); }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: var(--space-lg);
+  }
+}
+
+.hero {
+  text-align: center;
+  padding: var(--space-3xl) 0 var(--space-2xl);
+}
+
+.hero h1 {
+  color: var(--text);
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 1.125rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.empty-state h2 {
+  margin-bottom: var(--space-sm);
+  color: var(--text);
+}
+
+.empty-state p {
+  color: var(--muted);
+}
