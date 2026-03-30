@@ -1,61 +1,94 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { getTools } from "~/api/tools";
+import type { ToolListResult } from "~/types/tool";
+import ToolCard, { ToolCardSkeleton } from "~/components/ToolCard";
+import CategoryPills from "~/components/CategoryPills";
 
 export const Route = createFileRoute("/_authed/")({
-  component: HomePage,
+  loader: () => getTools({ data: {} }),
+  component: CatalogPage,
 });
 
-function HomePage() {
+function CatalogPage() {
+  const initialData = Route.useLoaderData() as ToolListResult;
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<string | undefined>();
+  const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(false);
+
+  async function search(q: string, cat: string | undefined) {
+    setLoading(true);
+    try {
+      const result = await getTools({
+        data: { q: q || undefined, category: cat },
+      });
+      setData(result);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    search(query, category);
+  }
+
+  function handleCategorySelect(cat: string | undefined) {
+    setCategory(cat);
+    search(query, cat);
+  }
+
   return (
-    <div className="container" style={{ paddingTop: "var(--space-lg)" }}>
-      <h1
-        className="text-display"
-        style={{ fontSize: "var(--text-3xl)", marginBottom: "var(--space-sm)" }}
-      >
-        Find a tool
-      </h1>
-      <p
-        className="text-muted"
-        style={{
-          fontSize: "var(--text-lg)",
-          marginBottom: "var(--space-lg)",
-        }}
-      >
-        Borrow what you need from your neighbors.
-      </p>
+    <div className="container">
+      <section className="search-hero">
+        <h1>Find a tool</h1>
+        <form onSubmit={handleSearch}>
+          <input
+            type="search"
+            className="input"
+            placeholder="Search tools..."
+            aria-label="Search tools"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </form>
+      </section>
 
-      <div style={{ marginBottom: "var(--space-lg)" }}>
-        <input
-          type="search"
-          className="input"
-          placeholder="Search tools..."
-          aria-label="Search tools"
-        />
-      </div>
+      <CategoryPills
+        categories={data.categories}
+        active={category}
+        onSelect={handleCategorySelect}
+      />
 
-      <div className="tool-grid">
-        {["Circular Saw", "Drill Press", "Hedge Trimmer"].map((name) => (
-          <div key={name} className="card">
-            <div
-              className="skeleton"
-              style={{
-                height: "140px",
-                marginBottom: "var(--space-sm)",
-                borderRadius: "var(--radius-sm)",
-              }}
-            />
-            <h3
-              style={{
-                fontSize: "var(--text-base)",
-                fontWeight: 600,
-                marginBottom: "var(--space-xs)",
-              }}
-            >
-              {name}
-            </h3>
-            <span className="badge badge-available">Available</span>
+      <section
+        style={{ marginTop: "var(--space-lg)" }}
+        aria-label="Tool catalog"
+        aria-live="polite"
+      >
+        {loading ? (
+          <div className="tool-grid">
+            {Array.from({ length: 6 }, (_, i) => (
+              <ToolCardSkeleton key={i} />
+            ))}
           </div>
-        ))}
-      </div>
+        ) : data.tools.length === 0 ? (
+          <div className="empty-state">
+            <h2>No tools found</h2>
+            <p>
+              {query
+                ? "Try a different search term or clear the filters."
+                : "No tools have been listed yet."}
+            </p>
+          </div>
+        ) : (
+          <div className="tool-grid">
+            {data.tools.map((tool) => (
+              <ToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

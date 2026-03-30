@@ -514,6 +514,212 @@ a:hover {
 }
 
 /* ==========================================================================
+   Component Styles — Tool Cards
+   ========================================================================== */
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  padding: 0;
+  transition: border-color var(--duration-short) var(--ease-enter);
+}
+
+.tool-card:hover {
+  border-color: var(--accent);
+  color: inherit;
+}
+
+.tool-card-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background-color: var(--surface-raised);
+}
+
+.tool-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.tool-card-body {
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+
+.tool-card-name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: var(--space-2xs);
+}
+
+.tool-card-owner {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-bottom: var(--space-sm);
+}
+
+/* ==========================================================================
+   Component Styles — Category Pills
+   ========================================================================== */
+
+.category-pills {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding-bottom: var(--space-xs);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background-color: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-short) var(--ease-enter),
+    border-color var(--duration-short) var(--ease-enter),
+    color var(--duration-short) var(--ease-enter);
+  -webkit-tap-highlight-color: transparent;
+  min-height: var(--touch-target-secondary);
+}
+
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--accent-on-bg);
+}
+
+.pill-active {
+  background-color: var(--accent-on-bg);
+  border-color: var(--accent-on-bg);
+  color: var(--bg);
+}
+
+.pill-active:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--bg);
+}
+
+/* ==========================================================================
+   Component Styles — Search Hero
+   ========================================================================== */
+
+.search-hero {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-lg);
+}
+
+.search-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.01em;
+}
+
+.search-hero .input {
+  font-size: var(--text-lg);
+  min-height: 52px;
+}
+
+/* ==========================================================================
+   Component Styles — Empty State
+   ========================================================================== */
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.empty-state h2 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.empty-state p {
+  color: var(--muted);
+  font-size: var(--text-base);
+}
+
+/* ==========================================================================
+   Component Styles — Tool Detail
+   ========================================================================== */
+
+.tool-detail {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .tool-detail {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tool-detail-photo {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+}
+
+@media (min-width: 768px) {
+  .tool-detail-photo {
+    height: 360px;
+  }
+}
+
+.tool-detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-detail-meta {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tool-detail-meta div {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tool-detail-meta dt {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.tool-detail-meta dd {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* ==========================================================================
    Typography Utilities
    ========================================================================== */
 
