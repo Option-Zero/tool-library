@@ -16,7 +16,7 @@ export const getTools = createServerFn()
     (input: { q?: string; category?: string; limit?: number; offset?: number }) => input,
   )
   .handler(async ({ data }): Promise<ToolListResult> => {
-    const db = env.TOOL_DB;
+    const db = env.db;
     const { q, category, limit = 50, offset = 0 } = data;
 
     // Build the main query
@@ -104,7 +104,7 @@ export const getTools = createServerFn()
 export const getToolById = createServerFn()
   .inputValidator((input: { id: string }) => input)
   .handler(async ({ data }): Promise<ToolDetailResult | null> => {
-    const db = env.TOOL_DB;
+    const db = env.db;
 
     const tool = await db
       .prepare(

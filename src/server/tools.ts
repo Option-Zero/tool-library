@@ -224,7 +224,7 @@ export const uploadImage = createServerFn({ method: "POST" })
     const user = await getCurrentUser();
     if (!user) throw new Error("Not authenticated");
 
-    const bucket = env.TOOL_IMAGES;
+    const bucket = (env as any)["userdata-r2"] as R2Bucket;
     const key = `tools/${user.id}/${Date.now()}-${data.filename}`;
 
     // Decode base64

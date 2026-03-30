@@ -11,15 +11,15 @@
   // "triggers": { "crons": ["0 9 * * *"] }
   "d1_databases": [
     {
-      "binding": "TOOL_DB",
-      "database_name": "tool-library-db",
-      "database_id": "placeholder-replace-with-real-id"
+      "binding": "db",
+      "database_name": "tool-library",
+      "database_id": "9eb3ce6c-c150-4bd4-a1d4-43150d96b177"
     }
   ],
   "r2_buckets": [
     {
-      "binding": "TOOL_IMAGES",
-      "bucket_name": "tool-library-images"
+      "binding": "userdata-r2",
+      "bucket_name": "tool-library-userdata"
     }
   ],
   // RESEND_API_KEY is set via `wrangler secret put RESEND_API_KEY`
