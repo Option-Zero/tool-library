@@ -15,6 +15,7 @@ export interface ToolWithOwner extends Tool {
 }
 
 export interface ToolWithLoan extends ToolWithOwner {
+  borrower_id: string | null;
   borrower_name: string | null;
   expected_return: string | null;
   borrowed_at: string | null;

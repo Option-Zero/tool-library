@@ -27,12 +27,13 @@ export const getTools = createServerFn()
       // FTS5 search: match against tools_fts, join back to tools
       sql = `
         SELECT t.*, u.name AS owner_name,
-               l.borrower_name, l.expected_return, l.borrowed_at
+               l.borrower_id, l.borrower_name, l.expected_return, l.borrowed_at
         FROM tools t
         INNER JOIN tools_fts ON tools_fts.rowid = t.rowid
         INNER JOIN users u ON u.id = t.owner_id
         LEFT JOIN (
           SELECT lo.tool_id,
+                 lo.borrower_id,
                  ub.name AS borrower_name,
                  lo.expected_return,
                  lo.borrowed_at
@@ -48,11 +49,12 @@ export const getTools = createServerFn()
     } else {
       sql = `
         SELECT t.*, u.name AS owner_name,
-               l.borrower_name, l.expected_return, l.borrowed_at
+               l.borrower_id, l.borrower_name, l.expected_return, l.borrowed_at
         FROM tools t
         INNER JOIN users u ON u.id = t.owner_id
         LEFT JOIN (
           SELECT lo.tool_id,
+                 lo.borrower_id,
                  ub.name AS borrower_name,
                  lo.expected_return,
                  lo.borrowed_at
@@ -108,11 +110,12 @@ export const getToolById = createServerFn()
       .prepare(
         `
         SELECT t.*, u.name AS owner_name,
-               l.borrower_name, l.expected_return, l.borrowed_at
+               l.borrower_id, l.borrower_name, l.expected_return, l.borrowed_at
         FROM tools t
         INNER JOIN users u ON u.id = t.owner_id
         LEFT JOIN (
           SELECT lo.tool_id,
+                 lo.borrower_id,
                  ub.name AS borrower_name,
                  lo.expected_return,
                  lo.borrowed_at
