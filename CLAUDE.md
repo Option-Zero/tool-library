@@ -23,6 +23,13 @@ In QA mode, flag any code that doesn't match DESIGN.md.
 - Deploy command: `npx wrangler deploy`
 - Domain: toolibrary.app (pending registration)
 
+## Dev Server
+- Run from hammer's checkout: `/home/jason/code/gt/toollibrary/crew/hammer`
+- tmux session: `devserver` window: `tool-library`
+- Command: `pnpm dev --host`
+- Secrets in `.dev.vars` (gitignored — never commit)
+- Local D1 data in `.wrangler/` (also gitignored)
+
 ## Key Product Decisions
 - The app is a **catalog and discovery layer**, NOT a communication platform
 - Borrowing is notification-only (no owner approval required) — mirrors the existing WhatsApp "borrowing X" flow
