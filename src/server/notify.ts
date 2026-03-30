@@ -133,7 +133,7 @@ async function sendEmailFallback(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Tool Library <noreply@mail.optionzero.co>",
+      from: "Tool Library <noreply@updates.optionzero.co>",
       to: [user.email],
       subject: title,
       html: `<p>${body}</p><p><a href="https://toollibrary.optionzero.co">Open Tool Library</a></p>`,

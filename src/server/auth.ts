@@ -99,7 +99,7 @@ export const requestMagicLink = createServerFn({ method: "POST" })
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Tool Library <noreply@mail.optionzero.co>",
+        from: "Tool Library <noreply@updates.optionzero.co>",
         to: [data.email],
         subject: "Your login link — Tool Library",
         html: `
