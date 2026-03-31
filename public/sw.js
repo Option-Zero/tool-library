@@ -1,5 +1,5 @@
 // Tool Library Service Worker — minimal cache-first for app shell
-const CACHE_NAME = 'toollibrary-v1'
+const CACHE_NAME = 'toollibrary-v2'
 const APP_SHELL = [
   '/',
   '/manifest.json',
@@ -77,6 +77,10 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('fetch', (event) => {
   // Only cache GET requests
   if (event.request.method !== 'GET') return
+
+  // Never cache server function responses — they depend on auth/session state
+  const url = new URL(event.request.url)
+  if (url.pathname.startsWith('/_serverFn')) return
 
   // Network-first for HTML (always fresh app shell)
   if (event.request.headers.get('accept')?.includes('text/html')) {
