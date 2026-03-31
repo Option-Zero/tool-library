@@ -15,6 +15,71 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
+const WEBMAIL_PROVIDERS: Record<string, { name: string; url: string }> = {
+  "gmail.com": { name: "Gmail", url: "https://mail.google.com" },
+  "googlemail.com": { name: "Gmail", url: "https://mail.google.com" },
+  "outlook.com": { name: "Outlook", url: "https://outlook.live.com" },
+  "hotmail.com": { name: "Outlook", url: "https://outlook.live.com" },
+  "live.com": { name: "Outlook", url: "https://outlook.live.com" },
+  "yahoo.com": { name: "Yahoo Mail", url: "https://mail.yahoo.com" },
+  "icloud.com": { name: "iCloud Mail", url: "https://www.icloud.com/mail" },
+  "me.com": { name: "iCloud Mail", url: "https://www.icloud.com/mail" },
+  "mac.com": { name: "iCloud Mail", url: "https://www.icloud.com/mail" },
+  "proton.me": { name: "Proton Mail", url: "https://mail.proton.me" },
+  "protonmail.com": { name: "Proton Mail", url: "https://mail.proton.me" },
+  "aol.com": { name: "AOL Mail", url: "https://mail.aol.com" },
+};
+
+function getWebmailProvider(email: string) {
+  const domain = email.split("@")[1]?.toLowerCase();
+  return domain ? WEBMAIL_PROVIDERS[domain] ?? null : null;
+}
+
+const WEBMAIL_ICONS: Record<string, React.ReactNode> = {
+  Gmail: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#EA4335" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#EA4335" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+  Outlook: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#0078D4" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#0078D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#0078D4" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+  "Yahoo Mail": (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#6001D2" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#6001D2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#6001D2" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+  "iCloud Mail": (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#3693F3" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#3693F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#3693F3" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+  "Proton Mail": (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#6D4AFF" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#6D4AFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#6D4AFF" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+  "AOL Mail": (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M2 6l10 7 10-7v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#39739D" opacity="0.15" />
+      <path d="M22 6l-10 7L2 6" stroke="#39739D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" stroke="#39739D" strokeWidth="2" fill="none" />
+    </svg>
+  ),
+};
+
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
@@ -82,6 +147,27 @@ function LoginPage() {
               We sent a login link to <strong>{email}</strong>. It expires in 15
               minutes.
             </p>
+            {(() => {
+              const provider = getWebmailProvider(email);
+              if (!provider) return null;
+              return (
+                <a
+                  href={provider.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost"
+                  style={{
+                    marginTop: "var(--space-md)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "var(--space-xs)",
+                  }}
+                >
+                  {WEBMAIL_ICONS[provider.name]}
+                  Open {provider.name}
+                </a>
+              );
+            })()}
           </div>
         ) : status === "not_allowed" ? (
           <div className="card" style={{ textAlign: "center" }}>
