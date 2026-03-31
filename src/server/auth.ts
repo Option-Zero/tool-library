@@ -25,7 +25,7 @@ export type AuthUser = {
   address: string | null;
 };
 
-export const getCurrentUser = createServerFn({ method: "GET" }).handler(
+export const getCurrentUser = createServerFn({ method: "POST" }).handler(
   async (): Promise<AuthUser | null> => {
     const sessionToken = getCookie(SESSION_COOKIE);
     if (!sessionToken) return null;

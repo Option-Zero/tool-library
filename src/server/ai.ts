@@ -89,6 +89,13 @@ If you cannot identify any tools, return an empty array: []`;
         if (!res.ok) {
           const body = await res.text();
           console.error("Gemini API error:", res.status, body);
+          if (res.status === 429) {
+            return {
+              ok: false,
+              error:
+                "AI quota exceeded — please try again later or contact the admin to upgrade the API plan",
+            };
+          }
           return { ok: false, error: "AI service temporarily unavailable" };
         }
 
@@ -181,6 +188,15 @@ Categories: Power Tools, Hand Tools, Garden Tools, Measuring, Safety, Fastening,
         );
 
         if (!res.ok) {
+          const body = await res.text();
+          console.error("Gemini API error:", res.status, body);
+          if (res.status === 429) {
+            return {
+              ok: false,
+              error:
+                "AI quota exceeded — please try again later or contact the admin to upgrade the API plan",
+            };
+          }
           return { ok: false, error: "AI service temporarily unavailable" };
         }
 
