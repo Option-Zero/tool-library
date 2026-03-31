@@ -2,8 +2,8 @@
  * Migration runner for D1.
  *
  * Usage:
- *   npx wrangler d1 execute TOOL_DB --file=migrations/0001_initial.sql
- *   npx wrangler d1 execute TOOL_DB --file=migrations/0002_fts_search.sql
+ *   npx wrangler d1 execute tool-library --file=migrations/0001_initial.sql
+ *   npx wrangler d1 execute tool-library --file=migrations/0002_fts_search.sql
  *
  * Or run all pending migrations:
  *   npx tsx scripts/migrate.ts          # local
@@ -34,7 +34,7 @@ for (const file of files) {
   // Check if already applied
   try {
     const check = execSync(
-      `npx wrangler d1 execute TOOL_DB ${remote ? "--remote" : "--local"} --command "SELECT 1 FROM _migrations WHERE name = '${name}'" --json`,
+      `npx wrangler d1 execute tool-library ${remote ? "--remote" : "--local"} --command "SELECT 1 FROM _migrations WHERE name = '${name}'" --json`,
       { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] },
     );
     const result = JSON.parse(check);
@@ -50,13 +50,13 @@ for (const file of files) {
   console.log(`  → ${file}...`);
   try {
     execSync(
-      `npx wrangler d1 execute TOOL_DB ${remote ? "--remote" : "--local"} --file="${filePath}"`,
+      `npx wrangler d1 execute tool-library ${remote ? "--remote" : "--local"} --file="${filePath}"`,
       { encoding: "utf-8", stdio: "inherit" },
     );
 
     // Record migration
     execSync(
-      `npx wrangler d1 execute TOOL_DB ${remote ? "--remote" : "--local"} --command "INSERT OR IGNORE INTO _migrations (name) VALUES ('${name}')"`,
+      `npx wrangler d1 execute tool-library ${remote ? "--remote" : "--local"} --command "INSERT OR IGNORE INTO _migrations (name) VALUES ('${name}')"`,
       { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] },
     );
     console.log(`  ✓ ${file}`);

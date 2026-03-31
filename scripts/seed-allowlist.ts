@@ -73,7 +73,7 @@ for (let i = 0; i < emailList.length; i += chunkSize) {
 
   try {
     execSync(
-      `npx wrangler d1 execute TOOL_DB ${remote ? "--remote" : "--local"} --command "${sql}"`,
+      `npx wrangler d1 execute tool-library ${remote ? "--remote" : "--local"} --command "${sql}"`,
       { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] },
     );
   } catch (err) {

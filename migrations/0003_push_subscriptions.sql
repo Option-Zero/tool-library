@@ -12,5 +12,8 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
 
 CREATE INDEX IF NOT EXISTS idx_push_subs_user ON push_subscriptions(user_id);
 
--- Add action_url to notifications for click-to-navigate
+-- Add action_url to notifications for click-to-navigate (idempotent)
+-- SQLite ALTER TABLE ADD COLUMN doesn't support IF NOT EXISTS,
+-- so we check the pragma first via the migration runner.
+-- If this fails with "duplicate column", the column already exists — safe to skip.
 ALTER TABLE notifications ADD COLUMN action_url TEXT;
