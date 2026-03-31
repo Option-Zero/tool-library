@@ -27,7 +27,14 @@ export type AuthUser = {
 
 export const getCurrentUser = createServerFn({ method: "GET" }).handler(
   async (): Promise<AuthUser | null> => {
-    const sessionToken = getCookie(SESSION_COOKIE);
+    let sessionToken: string | undefined;
+    try {
+      sessionToken = getCookie(SESSION_COOKIE);
+    } catch (e) {
+      console.error("[auth] getCookie failed:", e instanceof Error ? e.message : e);
+      return null;
+    }
+    console.error(`[auth] getCurrentUser: cookie=${sessionToken ? "present" : "missing"}`);
     if (!sessionToken) return null;
 
     const db = getDb();
@@ -41,6 +48,7 @@ export const getCurrentUser = createServerFn({ method: "GET" }).handler(
       .bind(sessionToken)
       .first<AuthUser>();
 
+    console.error(`[auth] getCurrentUser: session=${row ? "valid" : "not found"}`);
     return row ?? null;
   },
 );
