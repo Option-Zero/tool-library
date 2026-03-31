@@ -7,7 +7,7 @@ import { env } from "cloudflare:workers";
 import { getDb } from "./db";
 import { generateId, generateToken } from "./crypto";
 
-const isSecure = () => getRequestUrl().startsWith("https");
+const isSecure = () => String(getRequestUrl()).startsWith("https");
 
 const SESSION_COOKIE = "tl_session";
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
