@@ -259,6 +259,38 @@ a:hover {
   color: var(--text);
 }
 
+.app-header-nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .app-header-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+}
+
+.app-header-nav-link {
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-short) var(--ease-enter),
+              background-color var(--duration-short) var(--ease-enter);
+}
+
+.app-header-nav-link:hover {
+  color: var(--text);
+  background-color: var(--surface-raised);
+}
+
+.app-header-nav-link[data-active="true"] {
+  color: var(--accent-on-bg);
+}
+
 .app-header-actions {
   display: flex;
   align-items: center;
